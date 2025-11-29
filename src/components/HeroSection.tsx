@@ -18,9 +18,11 @@ export function HeroSection() {
       console.log("Redirect to signup");
       window.location.href = "/signup";
     } else {
-        // Redirect to portfolio
-        console.log("Redirect to portfolio");
-        window.location.href = "/portfolio";
+        // Scroll to My Dashboard
+        const element = document.getElementById('my-dashboard');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
     }
   };
 
@@ -92,11 +94,7 @@ export function HeroSection() {
               <Button 
                 size="lg"
                 variant="outline"
-                className={`border-2 font-bold text-lg px-8 py-6 transition-all ${
-                    !isLoggedIn 
-                    ? "border-gray-700 text-gray-500 hover:bg-gray-800" // Greyed out style
-                    : "border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10"
-                }`}
+                className="bg-transparent border-2 font-bold text-lg px-8 py-6 transition-all border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10"
                 onClick={handleCreateBotClick}
               >
                 {t('hero.create_bot')}

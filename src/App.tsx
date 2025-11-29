@@ -1,8 +1,7 @@
 import { Navigation } from "./components/Navigation";
 import { HeroSection } from "./components/HeroSection";
-import { LiveTicker } from "./components/LiveTicker";
 import { TopPerformersSection } from "./components/TopPerformersSection";
-import { MyBotsDashboard } from "./components/MyBotsDashboard";
+import { MyDashboard } from "./components/MyDashboard";
 import { LeaderboardSection } from "./components/LeaderboardSection";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 import { Footer } from "./components/Footer";
@@ -30,19 +29,15 @@ function AppContent() {
           {/* 1. Hero Section */}
           <HeroSection />
 
-          <LiveTicker />
-
           {/* Top 5 Performers Battle */}
           <div id="top-performers">
             <TopPerformersSection />
           </div>
           
-          {/* 2. My Bots Dashboard - Only shown when logged in */}
-          {isLoggedIn && (
-            <div id="my-dashboard">
-               <MyBotsDashboard />
-            </div>
-          )}
+          {/* 2. My Bots Dashboard - Handles its own login state */}
+          <div id="my-dashboard">
+              <MyDashboard />
+          </div>
 
           {/* 3. Main Leaderboard */}
           <div id="leaderboard">
