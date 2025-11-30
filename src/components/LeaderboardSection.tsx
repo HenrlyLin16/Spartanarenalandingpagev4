@@ -179,11 +179,15 @@ export function LeaderboardSection() {
     const medianNav = navs.length % 2 !== 0 ? navs[mid] : (navs[mid - 1] + navs[mid]) / 2;
     
     // Recalculate scores for Plan A
+    // Calculate Global Max values for the new formula
+    const globalMaxNav = Math.max(...sorted.map(b => b.maxNav));
+    const globalMaxPnl = Math.max(...sorted.map(b => b.maxPnl));
+
     sorted = sorted.map(bot => {
         if (bot.score && bot.score > 0) return bot;
 
-        const navRatio = bot.maxNav > 0 ? bot.aum / bot.maxNav : 0;
-        const pnlRatio = bot.maxPnl > 0 ? bot.pnl / bot.maxPnl : 0;
+        const navRatio = globalMaxNav > 0 ? bot.maxNav / globalMaxNav : 0;
+        const pnlRatio = globalMaxPnl > 0 ? bot.maxPnl / globalMaxPnl : 0;
         const basePercentage = navRatio + pnlRatio;
         const score = Math.min(basePercentage, 2.0) * 50;
         
@@ -237,43 +241,46 @@ export function LeaderboardSection() {
   const dataTimestamp = "2025-11-29 14:00";
 
   return (
-    <section className="px-4 py-16 relative">
+    <section className="px-4 pt-4 pb-16 md:py-16 relative">
       <div className="max-w-7xl mx-auto">
         {/* Tab Navigation */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
-          <div className="flex flex-col sm:flex-row bg-black/40 border border-gray-800 p-1 rounded-xl backdrop-blur-sm w-full lg:w-auto">
+          <div className="grid grid-cols-3 gap-2 w-full lg:flex lg:w-auto lg:gap-0 bg-transparent lg:bg-black/40 lg:border lg:border-gray-800 lg:p-1 lg:rounded-xl lg:backdrop-blur-sm">
             <button
               onClick={() => { setActiveTab("planA"); }}
-              className={`px-6 py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2 ${
+              className={`px-1 py-2 lg:px-6 lg:py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-1 lg:gap-2 whitespace-nowrap text-xs lg:text-base ${
                 activeTab === "planA"
                   ? "bg-[#F59E0B] text-black shadow-[0_0_15px_rgba(245,158,11,0.3)]"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  : "bg-white/5 lg:bg-transparent text-gray-400 hover:text-white hover:bg-white/10"
               }`}
             >
-              <Trophy size={18} />
-              Comprehensive Score
+              <Trophy size={14} className="lg:w-[18px] lg:h-[18px]" />
+              <span className="md:hidden">Score</span>
+              <span className="hidden md:inline">Comprehensive Score</span>
             </button>
             <button
               onClick={() => { setActiveTab("planB"); }}
-              className={`px-6 py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2 ${
+              className={`px-1 py-2 lg:px-6 lg:py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-1 lg:gap-2 whitespace-nowrap text-xs lg:text-base ${
                 activeTab === "planB"
                   ? "bg-[#F59E0B] text-black shadow-[0_0_15px_rgba(245,158,11,0.3)]"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  : "bg-white/5 lg:bg-transparent text-gray-400 hover:text-white hover:bg-white/10"
               }`}
             >
-              <Users size={18} />
-              Most Popular
+              <Users size={14} className="lg:w-[18px] lg:h-[18px]" />
+              <span className="md:hidden">Popular</span>
+              <span className="hidden md:inline">Most Popular</span>
             </button>
             <button
               onClick={() => { setActiveTab("planC"); }}
-              className={`px-6 py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-2 ${
+              className={`px-1 py-2 lg:px-6 lg:py-3 rounded-lg font-bold transition-all flex items-center justify-center gap-1 lg:gap-2 whitespace-nowrap text-xs lg:text-base ${
                 activeTab === "planC"
                   ? "bg-[#F59E0B] text-black shadow-[0_0_15px_rgba(245,158,11,0.3)]"
-                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                  : "bg-white/5 lg:bg-transparent text-gray-400 hover:text-white hover:bg-white/10"
               }`}
             >
-              <BarChart3 size={18} />
-              Most Volume
+              <BarChart3 size={14} className="lg:w-[18px] lg:h-[18px]" />
+              <span className="md:hidden">Volume</span>
+              <span className="hidden md:inline">Most Volume</span>
             </button>
           </div>
 
@@ -306,7 +313,7 @@ export function LeaderboardSection() {
                         {activeTab === "planA" && (
                             <>
                                 <p className="text-sm text-gray-300 font-mono mb-1">
-                                    Score = <span className="text-[#F59E0B]">min[(Current NAV / Max NAV) + (Current PnL / Max PnL), 2.0] × 50</span>
+                                    Score = <span className="text-[#F59E0B]">min[(Max NAV / All Max NAV) + (Max PnL / All Max PnL), 2.0] × 50</span>
                                 </p>
                                 <p className="text-sm text-gray-300 font-mono mb-2">
                                     Prize Pool: <span className="text-[#F59E0B] font-bold">$50,000</span>
@@ -345,9 +352,9 @@ export function LeaderboardSection() {
                     <div className="px-4 pb-4 pl-12 text-sm text-gray-400 space-y-2">
                         {activeTab === "planA" && (
                             <>
+                                <p>All Max NAV: Peak NAV in history across all bots.</p>
+                                <p>All Max PnL: Peak PnL in history across all bots.</p>
                                 <p>Score Range: 0-100. Tie-breaker: Higher NAV → Higher PnL.</p>
-                                <p>Example: Bot A has Current NAV $10k (Max $10k) and Current PnL $2k (Max $4k).</p>
-                                <p>Score = min[(10000/10000) + (2000/4000), 2.0] × 50 = min[1 + 0.5, 2.0] × 50 = 75.0</p>
                             </>
                         )}
                         {activeTab === "planB" && (

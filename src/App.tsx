@@ -25,7 +25,7 @@ function AppContent() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navigation />
         
-        <main className="flex-grow space-y-12 pb-20">
+        <main className="flex-grow space-y-6 md:space-y-12 pb-20">
           {/* 1. Hero Section */}
           <HeroSection />
 
@@ -35,9 +35,11 @@ function AppContent() {
           </div>
           
           {/* 2. My Bots Dashboard - Handles its own login state */}
-          <div id="my-dashboard">
-              <MyDashboard />
-          </div>
+          {isLoggedIn && (
+            <div id="my-dashboard">
+                <MyDashboard />
+            </div>
+          )}
 
           {/* 3. Main Leaderboard */}
           <div id="leaderboard">

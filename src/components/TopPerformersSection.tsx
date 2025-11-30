@@ -250,7 +250,7 @@ export function TopPerformersSection() {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 pt-0 pb-12 relative">
+    <section className="max-w-7xl mx-auto px-4 pt-0 pb-4 md:pb-12 relative">
         {hoverCard && (
             <BotHoverCard 
                 bot={BOTS.find(b => b.id === hoverCard.botId)} 
@@ -402,7 +402,7 @@ export function TopPerformersSection() {
         </div>
 
         {/* Chart Area */}
-        <div className="w-full bg-[#0D0D0D] border border-gray-800 rounded-xl p-6 mb-8 h-[400px] relative overflow-hidden">
+        <div className="w-full bg-[#0D0D0D] border border-gray-800 rounded-xl p-4 md:p-6 mb-8 h-[250px] md:h-[400px] relative overflow-hidden">
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                 <LineChart 
                     data={CHART_DATA}
@@ -446,13 +446,13 @@ export function TopPerformersSection() {
             </ResponsiveContainer>
         </div>
 
-        {/* Top 5 Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Top 5 Cards Grid/Scroll */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 lg:grid lg:grid-cols-5 lg:gap-4 lg:pb-0 lg:mx-0 lg:px-0 scrollbar-hide">
             {BOTS.map((bot) => (
                 <div 
                     key={bot.id}
                     className={`
-                        relative group rounded-xl p-4 transition-all duration-300 border
+                        relative group rounded-xl p-4 transition-all duration-300 border min-w-[260px] snap-center
                         ${bot.rank === 1 
                             ? 'bg-gradient-to-b from-[#F59E0B]/15 to-[#0D0D0D] border-[#F59E0B]/30 hover:border-[#F59E0B]/60' 
                             : bot.rank === 2 

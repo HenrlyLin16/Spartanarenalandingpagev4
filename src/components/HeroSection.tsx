@@ -63,51 +63,53 @@ export function HeroSection() {
               </div>
               
               <h1 
-                className="text-5xl md:text-7xl font-bold tracking-tight"
+                className="text-4xl md:text-7xl font-bold tracking-tight"
               >
                 <span className="bg-gradient-to-r from-[#F59E0B] via-[#FCD34D] to-[#D97706] bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(245,158,11,0.3)]">
                   {t('hero.title')}
                 </span>
               </h1>
               
-              <div className="text-xl md:text-2xl font-medium text-white flex items-center gap-3">
-                <span className="bg-[#F59E0B] text-black px-2 py-0.5 text-lg font-bold rounded">2025</span>
+              <div className="text-lg md:text-2xl font-medium text-white flex flex-wrap items-center gap-3">
+                <span className="bg-[#F59E0B] text-black px-2 py-0.5 text-base md:text-lg font-bold rounded">2025</span>
                 <span>{t('hero.subtitle')}</span>
               </div>
               
-              <div className="flex items-center gap-2 text-gray-400 text-lg">
-                <Calendar size={18} className="text-[#F59E0B]" />
+              <div className="flex items-center gap-2 text-gray-400 text-base md:text-lg">
+                <Calendar size={16} className="text-[#F59E0B] md:w-[18px] md:h-[18px]" />
                 <span>{t('hero.date')}</span>
               </div>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 pt-2 md:pt-4">
               <Button 
                 size="lg"
-                className="bg-[#F59E0B] text-black hover:bg-[#F59E0B]/90 font-bold text-lg px-8 py-6 shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all hover:scale-105"
+                className="bg-[#F59E0B] text-black hover:bg-[#F59E0B]/90 font-bold text-base md:text-lg px-6 py-5 md:px-8 md:py-6 shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all hover:scale-105"
                 onClick={handleRegisterClick}
               >
                 {!isLoggedIn ? t('hero.register_now') : t('hero.my_assets')}
               </Button>
               
-              <Button 
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-2 font-bold text-lg px-8 py-6 transition-all border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10"
-                onClick={handleCreateBotClick}
-              >
-                {t('hero.create_bot')}
-              </Button>
+              <div className="flex gap-3">
+                <Button 
+                    size="lg"
+                    variant="outline"
+                    className="flex-1 bg-transparent border-2 font-bold text-base md:text-lg px-6 py-5 md:px-8 md:py-6 transition-all border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10"
+                    onClick={handleCreateBotClick}
+                >
+                    {t('hero.create_bot')}
+                </Button>
 
-              <Button
-                  size="lg"
-                  className="bg-transparent border-2 border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B] hover:text-black font-bold text-lg px-6 py-6 transition-all aspect-square"
-                  onClick={handleGuideClick}
-                  title="Guide & Terms"
-              >
-                  <BookOpen size={24} />
-              </Button>
+                <Button
+                    size="lg"
+                    className="bg-transparent border-2 border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B] hover:text-black font-bold text-lg px-4 py-5 md:px-6 md:py-6 transition-all aspect-square"
+                    onClick={handleGuideClick}
+                    title="Guide & Terms"
+                >
+                    <BookOpen size={20} className="md:w-6 md:h-6" />
+                </Button>
+              </div>
             </div>
 
             {/* Stats */}
