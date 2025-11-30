@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "./ui/card";
-import { ScrollText } from "lucide-react";
+import { ScrollText, ChevronDown, ChevronUp } from "lucide-react";
 import { useLanguage } from "./LanguageProvider";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
+import { Button } from "./ui/button";
 
 export function TermsAndConditions() {
   const { t } = useLanguage();
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const sections = Array.from({ length: 13 }, (_, i) => `item_${i + 1}`);
+  const visibleSections = isExpanded ? sections : sections.slice(0, 1);
 
   return (
     <section className="px-4 py-8 max-w-7xl mx-auto relative z-10">
@@ -21,26 +24,52 @@ export function TermsAndConditions() {
             <p className="text-sm text-gray-500 mb-6">{t('terms.last_updated')}</p>
             
             <div className="space-y-8">
-              {sections.map((section, idx) => (
-                <motion.div 
-                  key={section}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="space-y-3"
-                >
-                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                    {t(`terms.${section}_title`)}
-                  </h3>
-                  <div className="space-y-2 text-sm md:text-base text-gray-400 leading-relaxed pl-4 border-l-2 border-[#F59E0B]/20">
-                    <p>{renderTextWithLinks(t(`terms.${section}_content`))}</p>
+              <AnimatePresence initial={false}>
+                {visibleSections.map((section, idx) => (
+                  <motion.div 
+                    key={section}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-3 overflow-hidden"
+                  >
+                    <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                      {t(`terms.${section}_title`)}
+                    </h3>
+                    <div className="space-y-2 text-sm md:text-base text-gray-400 leading-relaxed pl-4 border-l-2 border-[#F59E0B]/20">
+                      <p>{renderTextWithLinks(t(`terms.${section}_content`))}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+              
+              {!isExpanded && (
+                  <div className="relative pt-8 -mt-12">
+                      <div className="absolute bottom-full left-0 w-full h-24 bg-gradient-to-t from-[#0D0D0D] to-transparent pointer-events-none" />
                   </div>
-                </motion.div>
-              ))}
+              )}
             </div>
 
-            <div className="pt-8 border-t border-white/10 text-center mt-8">
+            <div className="pt-6 border-t border-white/10 flex flex-col items-center gap-4 mt-4">
+                <Button 
+                    variant="outline" 
+                    className="border-[#F59E0B] text-[#F59E0B] hover:bg-[#F59E0B]/10 min-w-[200px]"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                >
+                    {isExpanded ? (
+                        <>
+                            <ChevronUp className="mr-2 h-4 w-4" />
+                            Show Less
+                        </>
+                    ) : (
+                        <>
+                            <ChevronDown className="mr-2 h-4 w-4" />
+                            {t('terms.expand')}
+                        </>
+                    )}
+                </Button>
+                
                 <p className="text-xs text-gray-500">
                     Disclaimer: These terms are subject to change. Please check back regularly for updates.
                 </p>

@@ -283,24 +283,24 @@ export function TopPerformersSection() {
             </motion.div>
         </div>
 
-        <div className="flex items-center justify-between mb-8">
-            <div>
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-[#F59E0B] to-[#D97706] bg-clip-text text-transparent inline-flex items-center gap-3">
-                    <Trophy className="text-[#F59E0B]" />
+        <div className="flex items-start justify-between mb-6 md:mb-8 gap-4">
+            <div className="flex-1">
+                <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#F59E0B] to-[#D97706] bg-clip-text text-transparent inline-flex items-center gap-2 md:gap-3 leading-tight">
+                    <Trophy className="text-[#F59E0B] w-6 h-6 md:w-8 md:h-8 flex-shrink-0" />
                     Top 5 Performers Battle
                 </h2>
-                <p className="text-gray-400 mt-2">Live performance tracking of the arena's champions</p>
+                <p className="text-sm md:text-base text-gray-400 mt-1 md:mt-2">Live performance tracking of the arena's champions</p>
             </div>
             
             {/* Share Button */}
             <Dialog>
                 <DialogTrigger asChild>
-                    <Button variant="outline" size="sm" className="hidden sm:flex items-center gap-2 bg-[#F59E0B]/10 border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/20">
-                        <Share2 size={16} />
-                        Share
+                    <Button variant="outline" size="icon" className="flex shrink-0 bg-[#F59E0B]/10 border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/20 w-10 h-10 md:w-auto md:h-auto md:px-4 md:py-2">
+                        <Share2 size={18} />
+                        <span className="hidden md:inline ml-2">Share</span>
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="bg-[#0D0D0D] border border-gray-800 text-white sm:max-w-lg max-h-[90vh] overflow-y-auto p-6">
+                <DialogContent className="bg-[#0D0D0D] border border-gray-800 text-white w-[95vw] max-w-lg max-h-[90vh] overflow-y-auto p-4 md:p-6 rounded-xl">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-bold">Share</DialogTitle>
                     </DialogHeader>
@@ -452,7 +452,7 @@ export function TopPerformersSection() {
                 <div 
                     key={bot.id}
                     className={`
-                        relative group rounded-xl p-4 transition-all duration-300 border min-w-[260px] snap-center
+                        relative group rounded-xl p-4 transition-all duration-300 border min-w-[260px] lg:min-w-0 snap-center
                         ${bot.rank === 1 
                             ? 'bg-gradient-to-b from-[#F59E0B]/15 to-[#0D0D0D] border-[#F59E0B]/30 hover:border-[#F59E0B]/60' 
                             : bot.rank === 2 

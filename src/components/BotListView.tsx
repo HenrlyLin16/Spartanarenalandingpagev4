@@ -232,56 +232,80 @@ export function BotListView({ bots, activeTab }: BotListViewProps) {
         </div>
       </div>
 
-      {/* Mobile List View */}
-      <div className="md:hidden space-y-3">
+      {/* Mobile List View - Refined to match Bybit style */}
+      <div className="md:hidden">
         {bots.map((bot) => {
            const isFeatured = bot.featured || bot.isKOL;
-           const borderColor = isFeatured ? "#F59E0B" : "#DC2626";
            const isEligible = bot.eligible !== false;
+           const borderColor = isFeatured ? "#F59E0B" : "#DC2626";
 
            return (
              <div 
                 key={bot.id}
-                className="bg-black/40 rounded-xl border border-gray-800 p-4"
+                className="py-3 border-b border-gray-800/50 last:border-0"
                 onClick={() => window.location.href = `/bot/${bot.id}`}
              >
-                 <div className="flex items-start justify-between mb-3">
-                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 flex items-center justify-center font-bold text-gray-400 font-mono bg-white/5 rounded-lg">
+                 {/* Top Row: Rank + Name + Subscribe Button */}
+                 <div className="flex items-center justify-between mb-2">
+                     <div className="flex items-center gap-2">
+                        <div className={`w-5 h-5 flex items-center justify-center text-xs font-bold font-mono rounded ${bot.rank <= 3 ? 'bg-[#F59E0B] text-black' : 'bg-gray-800 text-gray-400'}`}>
                             #{bot.rank}
                         </div>
-                        <div>
-                            <div className="font-bold text-white">{bot.name}</div>
-                            <div className="text-xs text-[#F59E0B]">Score: {bot.score.toFixed(1)}</div>
+                        <div className="flex items-center gap-2">
+                            {bot.avatar && (
+                                <div className="w-5 h-5 rounded-full overflow-hidden border border-gray-700">
+                                    <ImageWithFallback src={bot.avatar} alt={bot.name} className="w-full h-full object-cover" />
+                                </div>
+                            )}
+                            <span className="font-bold text-white text-sm truncate max-w-[120px]">{bot.name}</span>
                         </div>
                      </div>
+                     
                      <Button
                         size="sm"
-                        className="h-8 bg-[#F59E0B] text-black hover:bg-[#F59E0B]/90 border-none font-medium"
+                        className="h-6 px-3 bg-[#F59E0B] text-black hover:bg-[#F59E0B]/90 rounded-full font-bold text-[10px]"
                         onClick={(e) => handleSubscribe(bot.id, e)}
                      >
                         Subscribe
                      </Button>
                  </div>
                  
-                 <div className="grid grid-cols-2 gap-2 text-sm">
-                     <div className="bg-white/5 p-2 rounded">
-                         <div className="text-[10px] text-gray-500">NAV</div>
-                         <div className="font-mono text-white">${bot.aum.toLocaleString()}</div>
+                 {/* Stats Grid - Bybit Style */}
+                 <div className="grid grid-cols-3 gap-1 mb-2">
+                     {/* Col 1: Score (Primary) */}
+                     <div className="flex flex-col">
+                         <span className="text-[10px] text-gray-500 mb-0.5 font-medium uppercase scale-90 origin-left">Score</span>
+                         <span className={`text-base font-mono font-bold ${getScoreColor(bot.score)}`}>
+                             {bot.score.toFixed(1)}
+                         </span>
                      </div>
-                     <div className="bg-white/5 p-2 rounded">
-                         <div className="text-[10px] text-gray-500">PnL</div>
-                         <div className={`font-mono ${bot.pnl >= 0 ? 'text-[#0ECB81]' : 'text-[#F6465D]'}`}>
-                            {bot.pnl >= 0 ? '+' : ''}${bot.pnl.toLocaleString()}
-                         </div>
+                     
+                     {/* Col 2: PnL */}
+                     <div className="flex flex-col text-center">
+                         <span className="text-[10px] text-gray-500 mb-0.5 font-medium uppercase scale-90">PnL (USDT)</span>
+                         <span className={`text-base font-mono font-medium ${bot.pnl >= 0 ? 'text-white' : 'text-white'}`}>
+                             {bot.pnl.toLocaleString()}
+                         </span>
                      </div>
-                     <div className="bg-white/5 p-2 rounded">
-                         <div className="text-[10px] text-gray-500">Subscribers</div>
-                         <div className="font-mono text-white">{bot.subscribers.toLocaleString()}</div>
+
+                     {/* Col 3: Subscribers */}
+                     <div className="flex flex-col text-right">
+                         <span className="text-[10px] text-gray-500 mb-0.5 font-medium uppercase scale-90 origin-right">Subscribers</span>
+                         <span className="text-base font-mono font-medium text-white">
+                             {bot.subscribers.toLocaleString()}
+                         </span>
                      </div>
-                     <div className="bg-white/5 p-2 rounded">
-                         <div className="text-[10px] text-gray-500">Volume</div>
-                         <div className="font-mono text-white">${(bot.volume / 1000).toFixed(0)}K</div>
+                 </div>
+
+                 {/* Bottom Row: Secondary Stats */}
+                 <div className="flex items-center gap-3 text-[10px] text-gray-500 font-mono">
+                     <div className="flex items-center gap-1">
+                         <div className="w-1 h-1 rounded-full bg-gray-600" />
+                         <span>NAV: ${bot.aum.toLocaleString()}</span>
+                     </div>
+                     <div className="flex items-center gap-1">
+                         <div className="w-1 h-1 rounded-full bg-gray-600" />
+                         <span>Vol: ${(bot.volume / 1000).toFixed(0)}K</span>
                      </div>
                  </div>
              </div>

@@ -1,4 +1,4 @@
-import { Shield, AlertCircle, MessageCircle } from "lucide-react";
+import { Shield, AlertCircle, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -8,26 +8,55 @@ import {
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useLanguage } from "./LanguageProvider";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 
 export function Footer() {
   const { t } = useLanguage();
+  const [isRiskExpanded, setIsRiskExpanded] = useState(false);
 
   return (
     <footer className="px-4 py-16 border-t border-gray-800/50 mt-16">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* Risk Warning */}
-        <div className="rounded-xl p-6 border border-[#DC2626]/30 bg-[#DC2626]/5">
-          <div className="flex items-start gap-3">
-            <AlertCircle size={24} className="text-[#DC2626] flex-shrink-0 mt-1" />
-            <div>
-              <h3 className="font-medium mb-2 text-[#DC2626]">
-                {t('footer.risk_warning_title')}
-              </h3>
-              <p className="text-sm text-gray-400 leading-relaxed">
-                {t('footer.risk_warning_content')}
-              </p>
+        {/* Risk Warning - Optimized for Mobile */}
+        <div className="rounded-xl p-4 md:p-6 border border-[#DC2626]/30 bg-[#DC2626]/5">
+          <Collapsible open={isRiskExpanded} onOpenChange={setIsRiskExpanded}>
+            <div className="flex items-start gap-3">
+              <AlertCircle size={24} className="text-[#DC2626] flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <div className="flex items-center justify-between md:justify-start md:gap-2 cursor-pointer md:cursor-default" onClick={() => setIsRiskExpanded(!isRiskExpanded)}>
+                    <h3 className="font-medium text-[#DC2626] text-sm md:text-base">
+                      {t('footer.risk_warning_title')}
+                    </h3>
+                    <CollapsibleTrigger asChild className="md:hidden">
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-[#DC2626] hover:bg-[#DC2626]/10">
+                            {isRiskExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        </Button>
+                    </CollapsibleTrigger>
+                </div>
+                
+                {/* Mobile Content */}
+                <div className="md:hidden">
+                    {!isRiskExpanded && (
+                        <p className="text-xs text-gray-400 mt-1 line-clamp-1 opacity-80" onClick={() => setIsRiskExpanded(true)}>
+                            {t('footer.risk_warning_content')}
+                        </p>
+                    )}
+                    
+                    <CollapsibleContent>
+                        <p className="text-xs text-gray-400 leading-relaxed mt-2">
+                            {t('footer.risk_warning_content')}
+                        </p>
+                    </CollapsibleContent>
+                </div>
+
+                {/* Desktop Content - Always Visible */}
+                 <p className="hidden md:block text-sm text-gray-400 leading-relaxed mt-2">
+                    {t('footer.risk_warning_content')}
+                 </p>
+              </div>
             </div>
-          </div>
+          </Collapsible>
         </div>
 
         {/* Help Button with Telegram QR Dialog */}

@@ -43,6 +43,7 @@ export function LeaderboardSection() {
   const [activeTab, setActiveTab] = useState<"planA" | "planB" | "planC">("planA");
   const [refBotId, setRefBotId] = useState<string | null>(null);
   const [algoCardOpen, setAlgoCardOpen] = useState(false);
+  const [riskOpen, setRiskOpen] = useState(false);
 
   // Detect URL parameter ?ref_bot={id}
   useEffect(() => {
@@ -292,66 +293,38 @@ export function LeaderboardSection() {
         </div>
 
         {/* Algorithm Explanation Card */}
-        <div className="mb-6 bg-white/5 border border-gray-800 rounded-lg overflow-hidden">
+        <div className="mb-4 bg-white/5 border border-gray-800 rounded-lg overflow-hidden">
             <Collapsible open={algoCardOpen} onOpenChange={setAlgoCardOpen}>
-                <div className="p-4 flex items-start gap-3">
-                    <Info className="text-[#F59E0B] mt-1 flex-shrink-0" size={20} />
+                <div className="p-3 flex items-start gap-3">
+                    <Info className="text-[#F59E0B] mt-0.5 flex-shrink-0" size={18} />
                     <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                            <h4 className="text-[#F59E0B] font-bold mb-1">
-                                {activeTab === "planA" && "Comprehensive Score Algorithm"}
-                                {activeTab === "planB" && "Most Popular Ranking"}
-                                {activeTab === "planC" && "Volume Ranking Logic"}
-                            </h4>
+                        <div className="flex items-center justify-between" onClick={() => setAlgoCardOpen(!algoCardOpen)}>
+                            <div className="flex flex-col md:flex-row md:items-center md:gap-4">
+                                <h4 className="text-[#F59E0B] font-bold text-sm md:text-base">
+                                    {activeTab === "planA" && "Comprehensive Score Algorithm"}
+                                    {activeTab === "planB" && "Most Popular Ranking"}
+                                    {activeTab === "planC" && "Volume Ranking Logic"}
+                                </h4>
+                                <p className="text-xs md:text-sm text-gray-300 font-mono mt-1 md:mt-0">
+                                    Prize Pool: <span className="text-[#F59E0B] font-bold">${activeTab === "planC" ? "20,000" : "50,000"}</span>
+                                </p>
+                            </div>
                             <CollapsibleTrigger asChild>
-                                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-400 hover:text-white">
                                     {algoCardOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                 </Button>
                             </CollapsibleTrigger>
                         </div>
-                        
-                        {activeTab === "planA" && (
-                            <>
-                                <p className="text-sm text-gray-300 font-mono mb-1">
-                                    Score = <span className="text-[#F59E0B]">min[(Max NAV / All Max NAV) + (Max PnL / All Max PnL), 2.0] × 50</span>
-                                </p>
-                                <p className="text-sm text-gray-300 font-mono mb-2">
-                                    Prize Pool: <span className="text-[#F59E0B] font-bold">$50,000</span>
-                                </p>
-                                {!algoCardOpen && <p className="text-xs text-gray-500 cursor-pointer" onClick={() => setAlgoCardOpen(true)}>Click to view details</p>}
-                            </>
-                        )}
-                        {activeTab === "planB" && (
-                            <>
-                                <div className="mb-2 space-y-1">
-                                    <p className="text-sm text-gray-300 font-mono">
-                                        Ranking Basis: <span className="text-[#F59E0B]">Total Subscribers</span>
-                                    </p>
-                                    <p className="text-sm text-gray-300 font-mono">
-                                        Prize Pool: <span className="text-[#F59E0B] font-bold">$50,000</span>
-                                    </p>
-                                </div>
-                                {!algoCardOpen && <p className="text-xs text-gray-500 cursor-pointer" onClick={() => setAlgoCardOpen(true)}>Click to view details</p>}
-                            </>
-                        )}
-                        {activeTab === "planC" && (
-                            <>
-                                <p className="text-sm text-gray-300 font-mono mb-1">
-                                    Ranking Basis: <span className="text-[#F59E0B]">Total Trading Volume (USDT)</span>
-                                </p>
-                                <p className="text-sm text-gray-300 font-mono mb-2">
-                                    Prize Pool: <span className="text-[#F59E0B] font-bold">$20,000</span>
-                                </p>
-                                {!algoCardOpen && <p className="text-xs text-gray-500 cursor-pointer" onClick={() => setAlgoCardOpen(true)}>Click to view details</p>}
-                            </>
-                        )}
                     </div>
                 </div>
                 
                 <CollapsibleContent>
-                    <div className="px-4 pb-4 pl-12 text-sm text-gray-400 space-y-2">
-                        {activeTab === "planA" && (
+                    <div className="px-3 pb-3 pl-10 text-xs md:text-sm text-gray-400 space-y-2 border-t border-white/5 pt-2 mt-1">
+                         {activeTab === "planA" && (
                             <>
+                                <p className="text-gray-300 font-mono bg-black/20 p-2 rounded border border-white/5 mb-2">
+                                    Score = <span className="text-[#F59E0B]">min[(Max NAV / All Max NAV) + (Max PnL / All Max PnL), 2.0] × 50</span>
+                                </p>
                                 <p>All Max NAV: Peak NAV in history across all bots.</p>
                                 <p>All Max PnL: Peak PnL in history across all bots.</p>
                                 <p>Score Range: 0-100. Tie-breaker: Higher NAV → Higher PnL.</p>
@@ -359,12 +332,18 @@ export function LeaderboardSection() {
                         )}
                         {activeTab === "planB" && (
                             <>
+                                <p className="text-gray-300 font-mono bg-black/20 p-2 rounded border border-white/5 mb-2">
+                                    Ranking Basis: <span className="text-[#F59E0B]">Total Subscribers</span>
+                                </p>
                                 <p>Bots are ranked strictly by the number of active subscribers.</p>
                                 <p>This reflects the community's trust and popularity of the bot strategy.</p>
                             </>
                         )}
                         {activeTab === "planC" && (
                             <>
+                                <p className="text-gray-300 font-mono bg-black/20 p-2 rounded border border-white/5 mb-2">
+                                    Ranking Basis: <span className="text-[#F59E0B]">Total Trading Volume (USDT)</span>
+                                </p>
                                 <p>Bots are ranked by the total trading volume processed (in USDT).</p>
                                 <p>High volume indicates active trading and deep liquidity participation.</p>
                             </>
@@ -375,13 +354,31 @@ export function LeaderboardSection() {
         </div>
 
         {/* Risk Warning */}
-        <div className="mb-6 p-3 bg-[#F59E0B]/5 border border-red-500/50 rounded flex items-start gap-3">
-             <AlertTriangle className="text-red-500 mt-0.5 flex-shrink-0" size={16} />
-             <div className="text-xs text-gray-300 space-y-1">
-                <p>⚠️ Ranking reflects historical performance only and does not guarantee future returns.</p>
-                <p>⚠️ High ranking does not imply low risk; please evaluate strategy risks carefully.</p>
-                <p>⚠️ Some bots may use high leverage, carrying significant liquidation risks.</p>
-             </div>
+        <div className="mb-6 bg-[#F59E0B]/5 border border-red-500/30 rounded-lg overflow-hidden">
+             <Collapsible open={riskOpen} onOpenChange={setRiskOpen}>
+                <div className="p-3 flex items-start gap-3 cursor-pointer" onClick={() => setRiskOpen(!riskOpen)}>
+                    <AlertTriangle className="text-red-500 mt-0.5 flex-shrink-0" size={16} />
+                    <div className="flex-1">
+                         <div className="flex items-center justify-between">
+                            <p className="text-xs text-red-400 font-medium">
+                                Risk Warning: Historical performance does not guarantee future returns.
+                            </p>
+                            <CollapsibleTrigger asChild>
+                                <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-red-500/70 hover:text-red-500">
+                                    {riskOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                                </Button>
+                            </CollapsibleTrigger>
+                        </div>
+                    </div>
+                </div>
+                <CollapsibleContent>
+                    <div className="px-3 pb-3 pl-10 text-xs text-gray-400 space-y-1.5">
+                        <p>⚠️ High ranking does not imply low risk; please evaluate strategy risks carefully.</p>
+                        <p>⚠️ Some bots may use high leverage, carrying significant liquidation risks.</p>
+                        <p>⚠️ Cryptocurrency trading involves substantial risk and may result in total loss of funds.</p>
+                    </div>
+                </CollapsibleContent>
+             </Collapsible>
         </div>
 
         {/* Content */}
