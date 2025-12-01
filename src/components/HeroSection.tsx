@@ -18,8 +18,8 @@ export function HeroSection() {
       console.log("Redirect to signup");
       window.location.href = "/signup";
     } else {
-        // Scroll to My Dashboard
-        const element = document.getElementById('my-dashboard');
+        // Scroll to Leaderboard
+        const element = document.getElementById('leaderboard');
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
         }
@@ -90,7 +90,7 @@ export function HeroSection() {
                     className="flex-1 bg-[#F59E0B] text-black hover:bg-[#F59E0B]/90 font-bold text-sm h-11 shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all hover:scale-105"
                     onClick={handleRegisterClick}
                   >
-                    {!isLoggedIn ? t('hero.register_now') : t('hero.my_assets')}
+                    {!isLoggedIn ? t('hero.register_now') : t('hero.explore_leaderboard')}
                   </Button>
                   
                   <Button
@@ -120,7 +120,7 @@ export function HeroSection() {
                 className="bg-[#F59E0B] text-black hover:bg-[#F59E0B]/90 font-bold text-lg px-8 py-6 shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all hover:scale-105"
                 onClick={handleRegisterClick}
               >
-                {!isLoggedIn ? t('hero.register_now') : t('hero.my_assets')}
+                {!isLoggedIn ? t('hero.register_now') : t('hero.explore_leaderboard')}
               </Button>
               
               <Button 

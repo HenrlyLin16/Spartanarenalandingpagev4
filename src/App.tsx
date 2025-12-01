@@ -1,7 +1,6 @@
 import { Navigation } from "./components/Navigation";
 import { HeroSection } from "./components/HeroSection";
 import { TopPerformersSection } from "./components/TopPerformersSection";
-import { MyDashboard } from "./components/MyDashboard";
 import { LeaderboardSection } from "./components/LeaderboardSection";
 import { TermsAndConditions } from "./components/TermsAndConditions";
 import { Footer } from "./components/Footer";
@@ -33,13 +32,6 @@ function AppContent() {
           <div id="top-performers">
             <TopPerformersSection />
           </div>
-          
-          {/* 2. My Bots Dashboard - Handles its own login state */}
-          {isLoggedIn && (
-            <div id="my-dashboard">
-                <MyDashboard />
-            </div>
-          )}
 
           {/* 3. Main Leaderboard */}
           <div id="leaderboard">
