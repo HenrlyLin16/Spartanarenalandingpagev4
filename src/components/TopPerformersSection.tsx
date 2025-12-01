@@ -293,6 +293,7 @@ export function TopPerformersSection() {
             </div>
             
             {/* Share Button */}
+            <div className="flex flex-col items-end gap-2">
             <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="outline" size="icon" className="flex shrink-0 bg-[#F59E0B]/10 border-[#F59E0B]/30 text-[#F59E0B] hover:bg-[#F59E0B]/20 w-10 h-10 md:w-auto md:h-auto md:px-4 md:py-2">
@@ -399,6 +400,10 @@ export function TopPerformersSection() {
                     </div>
                 </DialogContent>
             </Dialog>
+            <div className="text-[10px] md:text-xs text-gray-500 font-mono whitespace-nowrap">
+                Data as of 2025-11-29 14:00
+            </div>
+            </div>
         </div>
 
         {/* Chart Area */}
@@ -417,7 +422,14 @@ export function TopPerformersSection() {
                              </linearGradient>
                         ))}
                     </defs>
-                    <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} dy={10} />
+                    <XAxis 
+                        dataKey="date" 
+                        axisLine={false} 
+                        tickLine={false} 
+                        tick={{ fill: '#6B7280', fontSize: 12 }} 
+                        dy={10} 
+                        tickFormatter={(value) => `${value} (UTC+0)`}
+                    />
                     <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280', fontSize: 12 }} domain={[0, 100]} />
                     <Tooltip 
                         content={<CustomTooltip />} 

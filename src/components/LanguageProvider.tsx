@@ -96,7 +96,12 @@ const translations: Translations = {
     score: {
       title: "Comprehensive Score (0-100)",
       formula: "[(Current NAV / Max NAV) + (Current PnL / Max PnL)] × 50",
-      description: "Comparison with its own historical peak, encouraging continuous growth."
+      description: "Comparison with its own historical peak, encouraging continuous growth.",
+      self_max_nav: "Max NAV: Peak NAV in the bot's history.",
+      self_max_pnl: "Max PnL: Peak PnL in the bot's history (positive periods only).",
+      all_max_nav: "All Max NAV: Peak NAV in history across all bots.",
+      all_max_pnl: "All Max PnL: Peak PnL in history across all bots.",
+      range_tie_breaker: "Score Range: 0-100. Tie-breaker: Higher NAV → Higher PnL."
     },
     nav: {
       title: "Net Asset Value (NAV)",
@@ -284,7 +289,12 @@ const translationsZh: Translations = {
     score: {
       title: "综合得分 (0-100分)",
       formula: "[(当前NAV/最高NAV) + (当前PnL/最高PnL)] × 50",
-      description: "与自身历史峰值对比，鼓励持续成长"
+      description: "与自身历史峰值对比，鼓励持续成长",
+      self_max_nav: "Max NAV (自身最高 NAV): 该机器人历史记录中的NAV峰值",
+      self_max_pnl: "Max PnL (自身最高 PnL): 该机器人历史记录中的 PnL 峰值(仅统计正值时期)",
+      all_max_nav: "All Max NAV: 所有机器人中的历史最高 NAV",
+      all_max_pnl: "All Max PnL: 所有机器人中的历史最高 PnL",
+      range_tie_breaker: "得分范围：0-100。同分规则：NAV 高者优先 → PnL 高者优先。"
     },
     nav: {
       title: "净资产价值 (Net Asset Value)",

@@ -325,9 +325,11 @@ export function LeaderboardSection() {
                                 <p className="text-gray-300 font-mono bg-black/20 p-2 rounded border border-white/5 mb-2">
                                     Score = <span className="text-[#F59E0B]">min[(Max NAV / All Max NAV) + (Max PnL / All Max PnL), 2.0] × 50</span>
                                 </p>
-                                <p>All Max NAV: Peak NAV in history across all bots.</p>
-                                <p>All Max PnL: Peak PnL in history across all bots.</p>
-                                <p>Score Range: 0-100. Tie-breaker: Higher NAV → Higher PnL.</p>
+                                <p>{t('tooltips.score.self_max_nav')}</p>
+                                <p>{t('tooltips.score.self_max_pnl')}</p>
+                                <p>{t('tooltips.score.all_max_nav')}</p>
+                                <p>{t('tooltips.score.all_max_pnl')}</p>
+                                <p>{t('tooltips.score.range_tie_breaker')}</p>
                             </>
                         )}
                         {activeTab === "planB" && (
